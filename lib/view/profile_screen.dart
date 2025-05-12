@@ -31,9 +31,9 @@
 // // }
 
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:nepatronix/constants/app_colors.dart';
+import 'package:share_plus/share_plus.dart';
 import 'package:sizer/sizer.dart';
 
 class ProfileScreen extends StatelessWidget {
@@ -46,31 +46,47 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: ElevatedButton.icon(
-          style: ButtonStyle(
-              backgroundColor: WidgetStatePropertyAll(Colors.orange)),
-          onPressed: () {
-            // onpressed functionality
-            // showAdaptiveDialog(
-            //   useSafeArea: true,
-            //   context: context,
-            //   builder: (context) {
-            //     return AlertDialog(
-            //       title: Text('Are you sure you want to logout?'),
-            //       content: ,
-            //       alignment: Alignment.center,
-            //     );
-            //   },
-            // );
-          },
-          label: Text(
-            'Log Out',
-            style: TextStyle(color: Colors.black),
-          )),
+        iconAlignment: IconAlignment.end,
+        style:
+            ButtonStyle(backgroundColor: WidgetStatePropertyAll(Colors.orange)),
+        onPressed: () {
+          // onpressed functionality
+          // showAdaptiveDialog(
+          //   useSafeArea: true,
+          //   context: context,
+          //   builder: (context) {
+          //     return AlertDialog(
+          //       title: Text('Are you sure you want to logout?'),
+          //       content: ,
+          //       alignment: Alignment.center,
+          //     );
+          //   },
+          // );
+        },
+        label: Text(
+          'Log Out',
+          style: TextStyle(color: Colors.black),
+        ),
+        icon: Icon(
+          Icons.logout,
+          color: Colors.black,
+        ),
+      ),
+      // floatingActionButton: TextButton.icon(
+      //     icon: Icon(
+      //       Icons.logout,
+      //       color: Colors.black,
+      //     ),
+      //     onPressed: () {},
+      //     label: Text(
+      //       'Log Out',
+      //       style: TextStyle(color: Colors.black),
+      //     )),
       backgroundColor: AppColors.appBackground,
       body: SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Padding(
-          padding: EdgeInsets.only(right: 2.w, left: 2.w, top: 4.h),
+          padding: EdgeInsets.only(right: 2.w, left: 2.w, top: 6.h),
           child: Column(
             children: [
               Center(
@@ -142,13 +158,41 @@ class ProfileScreen extends StatelessWidget {
                     profileInfo(
                         'Add Pin', Icon(Icons.lock_outline), 'Add your pin',
                         trailingIcon: Icon(Icons.arrow_forward_ios)),
-
-                    profileInfo(
-                        'Invite a friend',
-                        Icon(Icons.group_add_outlined),
-                        trailingIcon: Icon(Icons.arrow_forward_ios),
-                        'Invite a friend'),
-
+                    // profileInfo(
+                    //     'Invite a friend', Icon(Icons.group_add_outlined), null,
+                    //     trailingIcon: Icon(Icons.arrow_forward_ios),
+                    //     onPressed: () {
+                    //   SharePlus.instance.share(ShareParams(
+                    //     text:
+                    //         'Check out NepaTronix App! Download it now: https://nepatronix.com/app',
+                    //     subject: 'Invitation to NepaTronix App',
+                    //   ));
+                    // }),
+                    Card(
+                      color: Colors.white,
+                      child: ListTile(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 16),
+                        title: Text(
+                          'Invite a friend',
+                          style: TextStyle(color: Colors.black),
+                        ),
+                        leading: Icon(
+                          Icons.group_add_outlined,
+                          color: Colors.black,
+                        ),
+                        trailing: Icon(
+                          Icons.arrow_forward_ios,
+                          color: Colors.black,
+                        ),
+                        onTap: () {
+                          //shareplus package is used here for inviting the friend
+                          SharePlus.instance.share(ShareParams(
+                            text:
+                                'Check out Innovator App! Download it now: https://nepatronix.com/app',
+                          ));
+                        },
+                      ),
+                    ),
                     profileInfo(
                         'Settings', Icon(Icons.settings_outlined), 'Settings',
                         trailingIcon: Icon(Icons.arrow_forward_ios)),
@@ -172,8 +216,8 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget profileInfo(String text, Icon leadingIcon, String details,
-      {Icon? trailingIcon}) {
+  Widget profileInfo(String text, Icon leadingIcon, String? details,
+      {Icon? trailingIcon, VoidCallback? onPressed}) {
     return Card(
       color: Colors.white,
       child: Theme(
@@ -192,15 +236,18 @@ class ProfileScreen extends StatelessWidget {
           leading: leadingIcon,
           trailing: trailingIcon,
           showTrailingIcon: trailingIcon != null,
+          onExpansionChanged: (expanded) {
+            if (expanded && onPressed != null) {
+              onPressed();
+            }
+          },
           children: [
-            Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              child: Text(
+            if (details != null)
+              Text(
                 details,
                 style: TextStyle(color: Colors.black87),
               ),
-            ),
+            TextButton(onPressed: onPressed ?? () {}, child: Text(''))
           ],
         ),
       ),

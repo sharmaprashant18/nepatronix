@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nepatronix/constants/app_colors.dart';
+import 'package:nepatronix/controller/theme_provider.dart';
 import 'package:nepatronix/view/course.dart';
 import 'package:nepatronix/view/faq.dart';
 import 'package:nepatronix/view/new_home_screen.dart';
@@ -9,11 +11,13 @@ import 'package:nepatronix/view/settings.dart';
 import 'package:nepatronix/view/subscription.dart';
 import 'package:nepatronix/view/support.dart';
 
-class DrawerPage extends StatelessWidget {
+class DrawerPage extends ConsumerWidget {
   const DrawerPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final isDarkMode = ref.watch(isDarkModeProvider);
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -128,6 +132,51 @@ class DrawerPage extends StatelessWidget {
                   color: Color(0xff5F73F3),
                   size: 25,
                 )),
+            // Modified theme toggle with label
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Card(
+                color: AppColors.background,
+                margin: EdgeInsets.zero,
+                elevation: 5,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                child: Padding(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      // Toggle icon
+                      Icon(
+                        isDarkMode ? Icons.dark_mode : Icons.light_mode,
+                        color: Color(0xff5F73F3),
+                        size: 25,
+                      ),
+                      // Mode label
+                      Text(
+                        isDarkMode ? 'Dark Mode' : 'Light Mode',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      // Switch
+                      Switch(
+                        value: isDarkMode,
+                        activeColor: const Color(0xff5F73F3),
+                        onChanged: (value) {
+                          // Toggle theme using our provider
+                          ref.read(themeProvider.notifier).setDarkMode(value);
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -190,7 +239,7 @@ class DrawerPage extends StatelessWidget {
                 }
                 switch (id) {
                   case 5:
-                    Navigator.push(
+                    Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
                             builder: (context) => CourseScreen()));

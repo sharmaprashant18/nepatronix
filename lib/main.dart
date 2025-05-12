@@ -2,14 +2,21 @@ import 'package:device_preview/device_preview.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+import 'package:nepatronix/constants/app_colors.dart';
+import 'package:nepatronix/controller/theme_provider.dart';
+import 'package:nepatronix/services/theme_services.dart';
+import 'package:nepatronix/view/chat_screen.dart';
 import 'package:nepatronix/view/drawer.dart';
 
-import 'package:nepatronix/view/homepage.dart';
-import 'package:nepatronix/view/new_home_screen.dart';
 import 'package:sizer/sizer.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Hive.initFlutter();
+  await ThemeServices.init();
   // runApp(ProviderScope(child: Home()));
+
   runApp(ProviderScope(
     child: DevicePreview(
       enabled: kDebugMode,
@@ -18,19 +25,31 @@ void main() {
   ));
 }
 
-class Home extends StatelessWidget {
+class Home extends ConsumerWidget {
   const Home({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    //if want to enable the dark mode and light mode option
+    // final themeData = ref.watch(themeDataProvider);
     return Sizer(builder: (context, orientation, screenType) {
       return MaterialApp(
-        debugShowCheckedModeBanner: false,
-        // home: Homepage(),
-        home: DrawerPage(),
-        // home: NewHomeScreen(),
-        // home: CoursesScreen(),
-      );
+          debugShowCheckedModeBanner: false,
+          // home: Homepage(),
+          // home: DrawerPage(),
+          home: ChatScreen(),
+
+          // theme: themeData, //if want to enable the dark mode and light mode option
+          theme: ThemeData(
+            useMaterial3: true,
+            appBarTheme: AppBarTheme(
+              backgroundColor: AppColors.appBackground,
+            ),
+            scaffoldBackgroundColor: AppColors.appBackground,
+          )
+          // home: NewHomeScreen(),
+          // home: CoursesScreen(),
+          );
     });
   }
 }

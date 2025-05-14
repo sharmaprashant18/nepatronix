@@ -15,14 +15,14 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await ThemeServices.init();
-  // runApp(ProviderScope(child: Home()));
+  runApp(ProviderScope(child: Home()));
 
-  runApp(ProviderScope(
-    child: DevicePreview(
-      enabled: kDebugMode,
-      builder: (context) => Home(),
-    ),
-  ));
+  // runApp(ProviderScope(
+  //   child: DevicePreview(
+  //     enabled: kDebugMode,
+  //     builder: (context) => Home(),
+  //   ),
+  // ));
 }
 
 class Home extends ConsumerWidget {

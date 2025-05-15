@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nepatronix/controller/course_riverpod.dart';
+import 'package:nepatronix/provider/course_riverpod.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 
 class NotesScreen extends ConsumerWidget {

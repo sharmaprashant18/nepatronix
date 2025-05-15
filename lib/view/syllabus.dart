@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:nepatronix/controller/course_riverpod.dart';
+import 'package:nepatronix/provider/course_riverpod.dart';
 import 'package:nepatronix/view/notes.dart';
 
 class Syllabus extends ConsumerWidget {

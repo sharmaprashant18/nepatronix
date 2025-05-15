@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:nepatronix/constants/app_colors.dart';
-import 'package:nepatronix/controller/theme_provider.dart';
+import 'package:nepatronix/provider/theme_provider.dart';
 import 'package:nepatronix/view/course.dart';
 import 'package:nepatronix/view/faq.dart';
 import 'package:nepatronix/view/new_home_screen.dart';

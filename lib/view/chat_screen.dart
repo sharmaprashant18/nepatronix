@@ -328,7 +328,7 @@ class _ChatScreenState extends State<ChatScreen> {
             leading: CircleAvatar(
               backgroundImage: AssetImage(user.image),
             ),
-            title: Text(user.name),
+            title: Text(user.nickname ?? user.name),
             subtitle: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
-import 'package:nepatronix/controller/chat_message.dart';
+import 'package:nepatronix/provider/chat_message.dart';
 import 'package:nepatronix/model/chat_model.dart';
 import 'package:nepatronix/view/personal_chat_profile.dart';
 import 'package:sizer/sizer.dart';
@@ -123,7 +123,7 @@ class _PersonalChatState extends ConsumerState<PersonalChat> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      widget.user.name,
+                      widget.user.nickname ?? widget.user.name,
                       style: TextStyle(
                         // fontSize: 14.sp,
                         fontWeight: FontWeight.bold,

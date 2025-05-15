@@ -1,16 +1,20 @@
 import 'package:dio/dio.dart';
-import 'package:nepatronix/auth_helper/appdata.dart';
+
 import 'package:nepatronix/model/courses_model.dart';
 
 class CourseService {
-  final AppData _appData = AppData();
+  // final AppData _appData = AppData();
+
   final Dio dio = Dio();
   final String baseUrl = 'http://182.93.94.210:3064/api/v1/list-courses';
 
   Future<List<Data>?> fetchCourses({int? page}) async {
     try {
       final response = await dio.get('$baseUrl/$page',
-          options: Options(headers: {'authorization': 'Bearer $_appData'}));
+          options: Options(headers: {
+            'authorization':
+                'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2ODA4ZTMzYjA0YjUzNmZiMWJjZDY2OGIiLCJlbWFpbCI6ImRlZXBzdWdhdXRhbUBnbWFpbC5jb20iLCJwaG9uZSI6Ijk4NDU3NjM0MzQiLCJpYXQiOjE3NDcyMTM2MjEsImV4cCI6MTc0NzMwMDAyMX0.pGPLOrPyaOwGvsxcyVCYPu6jtOut9093cTL_aFF37Uc'
+          }));
       if (response.statusCode == 200) {
         final courses = Courses.fromJson(response.data);
         return courses.data;
